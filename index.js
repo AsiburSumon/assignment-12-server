@@ -19,12 +19,19 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run (){
     try{
         const categoriesCollection = client.db('hondaBd').collection('categories');
+        const productsCollection = client.db('hondaBd').collection('products');
 
         // get categories
         app.get('/categories', async (req, res) => {
             const query = {};
             const categories = await categoriesCollection.find(query).toArray();
             res.send(categories)
+        })
+
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const products = await productsCollection.find(query).toArray();
+            res.send(products);
         })
     }
     finally{
