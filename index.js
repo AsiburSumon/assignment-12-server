@@ -20,6 +20,7 @@ async function run (){
     try{
         const categoriesCollection = client.db('hondaBd').collection('categories');
 
+        // get categories
         app.get('/categories', async (req, res) => {
             const query = {};
             const categories = await categoriesCollection.find(query).toArray();
