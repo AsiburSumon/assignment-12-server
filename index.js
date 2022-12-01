@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const { query } = require('express');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 
@@ -17,16 +18,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function run (){
     try{
+        const categoriesCollection = client.db('hondaBd').collection('categories');
 
+        app.get('/categories', async (req, res) => {
+            const query = {};
+            const categories = await categoriesCollection.find(query).toArray();
+            res.send(categories)
+        })
     }
     finally{
 
     }
 }
-run().catch(console.log);
+run().catch(err => console.error(err));
 
-app.get('/', async(req, res) => {
+app.get('/', (req, res) => {
     res.send('server for assignment is running');
-})
+});
 
 app.listen(port, () => console.log(`Server is running on ${port}`))
