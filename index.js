@@ -20,6 +20,8 @@ async function run (){
     try{
         const categoriesCollection = client.db('hondaBd').collection('categories');
         const productsCollection = client.db('hondaBd').collection('products');
+        const bookCollection = client.db('hondaBd').collection('orders');
+        const usersCollection = client.db('hondaBd').collection('users');
 
         // get categories
         app.get('/categories', async (req, res) => {
@@ -40,6 +42,19 @@ async function run (){
             const query = { _id: ObjectId(id)};
             const product =await productsCollection.findOne(query)
             res.send(product);
+        })
+
+        // add orders
+        app.get('/bookingOrders', async (req, res) => {
+            const query = {};
+            const products = await bookCollection.find(query).toArray();
+            res.send(products);
+        })
+
+        app.post('/bookingOrders', async (req, res) => {
+            const bookedProduct = req.body;
+            const result = await bookCollection.insertOne(bookedProduct);
+            res.send(result);
         })
     }
     finally{
