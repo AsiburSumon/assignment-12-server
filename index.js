@@ -44,13 +44,19 @@ async function run (){
             res.send(product);
         })
 
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productsCollection.insertOne(product);
+            res.send(result);
+        })
+
         // add orders
         app.get('/bookingOrders', async (req, res) => {
             const query = {};
             const products = await bookCollection.find(query).toArray();
             res.send(products);
         })
-
+        
         app.post('/bookingOrders', async (req, res) => {
             const bookedProduct = req.body;
             const result = await bookCollection.insertOne(bookedProduct);
