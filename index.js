@@ -56,6 +56,18 @@ async function run (){
             const result = await bookCollection.insertOne(bookedProduct);
             res.send(result);
         })
+
+        app.get('/users', async (req, res) => {
+            const query = {};
+            const users = await usersCollection.find(query).toArray();
+            res.send(users);
+        })
+
+        app.post('/users', async (req, res) => {
+            const users = req.body;
+            const result = await usersCollection.insertOne(users);
+            res.send(result);
+        })
     }
     finally{
 
